@@ -1,0 +1,2 @@
+# Pin everything. Until the first PyPI release, install bhavishya from GitHub at a fixed commit.
+bhavishya @ git+https://github.com/Tharun0127/Bhavishya@main

@@ -1,0 +1,50 @@
+# Test-runs a model submission from a pull request, only after a maintainer applies the
+# `run-submission` label. Security rules (see SECURITY.md):
+# - Trigger is `pull_request` (never `pull_request_target`), so fork PRs get a read-only token and no secrets.
+# - Only the `labeled` event runs it. Pushing new commits does not re-run; a maintainer must re-label.
+# - The job checks out the exact commit that was labelled, uses no secrets, and runs the model in
+#   Docker with --network none and CPU, memory, process and time limits.
+name: submission
+
+on:
+  pull_request:
+    types: [labeled]
+    paths: ["submissions/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    if: ${{ github.event.label.name == 'run-submission' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with: { ref: data, path: arena-data, persist-credentials: false }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install .
+      - name: Find changed submission folders
+        id: subs
+        run: |
+          git fetch --no-tags --depth=1 origin "${{ github.event.pull_request.base.sha }}"
+          dirs=$(git diff --name-only "${{ github.event.pull_request.base.sha }}" HEAD -- submissions/ | cut -d/ -f2 | grep -v '^_' | sort -u | tr '\n' ' ')
+          echo "dirs=$dirs" >> "$GITHUB_OUTPUT"
+      - name: Validate, build, and run each submission on the latest committed inputs
+        run: |
+          latest=$(ls arena-data/inputs | sort | tail -1)
+          for d in ${{ steps.subs.outputs.dirs }}; do
+            bhavishya run-submission --path "submissions/$d" --run-date "$latest" --data-dir arena-data
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: submission-output
+          path: arena-data/staging/
+          retention-days: 14

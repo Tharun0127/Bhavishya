@@ -1,0 +1,11 @@
+# Copy this folder to submissions/<your_model_name>/ and edit every field.
+name: my_model                 # must equal the folder name; lower-case letters, digits, underscores
+version: "0.1.0"
+authors:
+  - name: Your Name
+    github: your-github-handle
+licence: Apache-2.0            # licence of your code AND your weights; must allow us to run and publish forecasts
+weights_source: "none (statistical model)"  # or e.g. "https://huggingface.co/org/model@<commit>"
+entrypoint: "forecast.py:MyModel"
+description: >-
+  One or two sentences: what the model is and whether it was trained on any data after 2026-10-27.

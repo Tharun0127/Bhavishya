@@ -71,8 +71,13 @@ def test_check_no_leakage_allows_equal_cutoff(history):
 
 
 def test_finalize_sorts_crossing_quantiles_and_checks_shape():
-    raw = pd.DataFrame({"series_id": ["a", "a"], "horizon": [1, 2],
-                        **{c: [9 - i, 9 - i] for i, c in enumerate(QUANTILE_COLUMNS)}})
+    raw = pd.DataFrame(
+        {
+            "series_id": ["a", "a"],
+            "horizon": [1, 2],
+            **{c: [9 - i, 9 - i] for i, c in enumerate(QUANTILE_COLUMNS)},
+        }
+    )
     out = finalize_forecast(raw, pd.Timestamp("2026-01-31"), 2, ["a"])
     assert (np.diff(out[list(QUANTILE_COLUMNS)].to_numpy(), axis=1) >= 0).all()
     with pytest.raises(ValueError, match="expected one per series"):
@@ -130,3 +135,27 @@ def test_foundation_models_contract(name, history):
     assert len(out) == 56
     info = model.info()
     assert info.weights_revision and info.weights_sha256 and len(info.weights_sha256) == 64
+
+
+def test_submission_template_meets_contract(history, tmp_path):
+    """The template a contributor copies must itself pass the interface checks."""
+    import importlib.util
+    import shutil
+    from pathlib import Path
+
+    from bhavishya.arena.submissions import load_submission
+
+    template = Path("submissions/_template")
+    spec = importlib.util.spec_from_file_location("tmpl", template / "forecast.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    out = module.MyModel().forecast(history, history["timestamp"].max(), 28)
+    assert len(out) == 56
+
+    folder = tmp_path / "my_model"
+    shutil.copytree(template, folder)
+    assert load_submission(folder).name == "my_model"
+    bad = tmp_path / "Bad-Name"
+    shutil.copytree(template, bad)
+    with pytest.raises(ValueError, match="folder name"):
+        load_submission(bad)
