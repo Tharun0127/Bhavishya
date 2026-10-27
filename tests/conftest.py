@@ -20,3 +20,8 @@ def daily_history(series: dict[str, list[float]], start: str = "2026-01-01") -> 
         for i, v in enumerate(values):
             rows.append((sid, pd.Timestamp(start) + pd.Timedelta(days=i), float(v)))
     return pd.DataFrame(rows, columns=["series_id", "timestamp", "value"])
+
+
+@pytest.fixture
+def make_history():
+    return daily_history
