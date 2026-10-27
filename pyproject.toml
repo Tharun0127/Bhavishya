@@ -39,7 +39,7 @@ baselines = ["statsforecast>=2.0", "mlforecast>=1.0", "lightgbm>=4.0"]
 chronos = ["chronos-forecasting>=2.2,<3", "torch>=2.2"]
 timesfm = ["timesfm[torch]>=3.0,<4"]
 # Moirai needs its own environment because uni2ts pins old torch, numpy and scipy.
-moirai = ["uni2ts==2.0.0"]
+moirai = ["uni2ts==2.0.0", "pyarrow>=14,<20"]
 arena = ["jinja2>=3.1", "markdown>=3.5", "opentimestamps>=0.4.5"]
 dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.10", "pandas-stubs", "types-PyYAML", "types-requests", "mkdocs-material>=9"]
 

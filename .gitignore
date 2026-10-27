@@ -16,3 +16,4 @@ data/
 .cache/
 arena-data/
 docs/data_sources.md
+pipeline-test/
