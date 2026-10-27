@@ -1,0 +1,228 @@
+version: v1
+rules:
+  data_cutoff: Use only rows with vintage_date on or before the freeze date. The selection code refuses any later
+    vintage.
+  coverage: Coverage is the share of the 365 days ending at the newest observation that have a value. A series needs
+    coverage of at least 0.85.
+  grid_india: Include all-India energy met (MU) and all-India maximum demand met (MW). Then include energy met (MU)
+    for the 15 states with the highest mean energy met over the same 365 days.
+  cpcb_aqi: Rank cities by the 2011 Census list of largest urban agglomerations (fixed in src/bhavishya/arena/panel.py).
+    Include the first 20 cities in that order whose bulletin coverage passes the threshold.
+  why: Size and coverage are known in advance and say nothing about future forecast difficulty. No rule looks at
+    past forecast errors, volatility, or any value after the freeze date.
+frozen_on: '2026-10-27'
+series:
+- grid_india/energy_met/all_india
+- grid_india/max_demand/all_india
+- grid_india/energy_met/maharashtra
+- grid_india/energy_met/gujarat
+- grid_india/energy_met/up
+- grid_india/energy_met/tamil_nadu
+- grid_india/energy_met/rajasthan
+- grid_india/energy_met/karnataka
+- grid_india/energy_met/mp
+- grid_india/energy_met/telangana
+- grid_india/energy_met/andhra_pradesh
+- grid_india/energy_met/punjab
+- grid_india/energy_met/haryana
+- grid_india/energy_met/west_bengal
+- grid_india/energy_met/bihar
+- grid_india/energy_met/odisha
+- grid_india/energy_met/chhattisgarh
+- cpcb_aqi/aqi/mumbai
+- cpcb_aqi/aqi/delhi
+- cpcb_aqi/aqi/kolkata
+- cpcb_aqi/aqi/chennai
+- cpcb_aqi/aqi/bengaluru
+- cpcb_aqi/aqi/hyderabad
+- cpcb_aqi/aqi/ahmedabad
+- cpcb_aqi/aqi/pune
+- cpcb_aqi/aqi/surat
+- cpcb_aqi/aqi/jaipur
+- cpcb_aqi/aqi/kanpur
+- cpcb_aqi/aqi/lucknow
+- cpcb_aqi/aqi/nagpur
+- cpcb_aqi/aqi/ghaziabad
+- cpcb_aqi/aqi/indore
+- cpcb_aqi/aqi/patna
+- cpcb_aqi/aqi/bhopal
+- cpcb_aqi/aqi/thrissur
+- cpcb_aqi/aqi/agra
+- cpcb_aqi/aqi/visakhapatnam
+selection_stats:
+  cpcb_aqi/aqi/agra:
+    coverage: 1.0
+    mean_value: 113.73
+    selected: true
+  cpcb_aqi/aqi/ahmedabad:
+    coverage: 1.0
+    mean_value: 112.56
+    selected: true
+  cpcb_aqi/aqi/bengaluru:
+    coverage: 1.0
+    mean_value: 84.81
+    selected: true
+  cpcb_aqi/aqi/bhopal:
+    coverage: 1.0
+    mean_value: 113.18
+    selected: true
+  cpcb_aqi/aqi/chennai:
+    coverage: 1.0
+    mean_value: 84.13
+    selected: true
+  cpcb_aqi/aqi/coimbatore:
+    coverage: 0.816
+    mean_value: 68.98
+    selected: false
+  cpcb_aqi/aqi/delhi:
+    coverage: 1.0
+    mean_value: 199.78
+    selected: true
+  cpcb_aqi/aqi/ghaziabad:
+    coverage: 1.0
+    mean_value: 213.4
+    selected: true
+  cpcb_aqi/aqi/hyderabad:
+    coverage: 1.0
+    mean_value: 73.85
+    selected: true
+  cpcb_aqi/aqi/indore:
+    coverage: 1.0
+    mean_value: 84.56
+    selected: true
+  cpcb_aqi/aqi/jaipur:
+    coverage: 1.0
+    mean_value: 127.02
+    selected: true
+  cpcb_aqi/aqi/kannur:
+    coverage: 0.784
+    mean_value: 70.95
+    selected: false
+  cpcb_aqi/aqi/kanpur:
+    coverage: 1.0
+    mean_value: 96.88
+    selected: true
+  cpcb_aqi/aqi/kolkata:
+    coverage: 1.0
+    mean_value: 101.55
+    selected: true
+  cpcb_aqi/aqi/lucknow:
+    coverage: 1.0
+    mean_value: 115.13
+    selected: true
+  cpcb_aqi/aqi/ludhiana:
+    coverage: 0.904
+    mean_value: 102.48
+    selected: false
+  cpcb_aqi/aqi/mumbai:
+    coverage: 1.0
+    mean_value: 81.18
+    selected: true
+  cpcb_aqi/aqi/nagpur:
+    coverage: 1.0
+    mean_value: 99.8
+    selected: true
+  cpcb_aqi/aqi/nashik:
+    coverage: 1.0
+    mean_value: 77.55
+    selected: false
+  cpcb_aqi/aqi/patna:
+    coverage: 1.0
+    mean_value: 109.86
+    selected: true
+  cpcb_aqi/aqi/pune:
+    coverage: 1.0
+    mean_value: 101.38
+    selected: true
+  cpcb_aqi/aqi/surat:
+    coverage: 0.967
+    mean_value: 89.82
+    selected: true
+  cpcb_aqi/aqi/thiruvananthapuram:
+    coverage: 0.986
+    mean_value: 63.12
+    selected: false
+  cpcb_aqi/aqi/thrissur:
+    coverage: 0.855
+    mean_value: 62.56
+    selected: true
+  cpcb_aqi/aqi/vadodara:
+    coverage: 0.734
+    mean_value: 102.84
+    selected: false
+  cpcb_aqi/aqi/vijayawada:
+    coverage: 0.995
+    mean_value: 71.47
+    selected: false
+  cpcb_aqi/aqi/visakhapatnam:
+    coverage: 0.959
+    mean_value: 133.5
+    selected: true
+  grid_india/energy_met/all_india:
+    coverage: 0.995
+    mean_value: 5020.45
+    selected: true
+  grid_india/energy_met/andhra_pradesh:
+    coverage: 0.995
+    mean_value: 245.65
+    selected: true
+  grid_india/energy_met/bihar:
+    coverage: 0.995
+    mean_value: 140.25
+    selected: true
+  grid_india/energy_met/chhattisgarh:
+    coverage: 0.995
+    mean_value: 121.57
+    selected: true
+  grid_india/energy_met/gujarat:
+    coverage: 0.995
+    mean_value: 472.87
+    selected: true
+  grid_india/energy_met/haryana:
+    coverage: 0.995
+    mean_value: 208.18
+    selected: true
+  grid_india/energy_met/karnataka:
+    coverage: 0.995
+    mean_value: 304.65
+    selected: true
+  grid_india/energy_met/maharashtra:
+    coverage: 0.995
+    mean_value: 610.67
+    selected: true
+  grid_india/energy_met/mp:
+    coverage: 0.995
+    mean_value: 297.35
+    selected: true
+  grid_india/energy_met/odisha:
+    coverage: 0.995
+    mean_value: 124.62
+    selected: true
+  grid_india/energy_met/punjab:
+    coverage: 0.995
+    mean_value: 228.04
+    selected: true
+  grid_india/energy_met/rajasthan:
+    coverage: 0.995
+    mean_value: 318.24
+    selected: true
+  grid_india/energy_met/tamil_nadu:
+    coverage: 0.995
+    mean_value: 385.48
+    selected: true
+  grid_india/energy_met/telangana:
+    coverage: 0.995
+    mean_value: 270.13
+    selected: true
+  grid_india/energy_met/up:
+    coverage: 0.995
+    mean_value: 466.24
+    selected: true
+  grid_india/energy_met/west_bengal:
+    coverage: 0.995
+    mean_value: 206.07
+    selected: true
+  grid_india/max_demand/all_india:
+    coverage: 0.995
+    mean_value: 234293.44
+    selected: true
