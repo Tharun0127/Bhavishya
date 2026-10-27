@@ -94,3 +94,8 @@ Revisions are pinned in `src/bhavishya/models/foundation.py`. The SHA-256 of eac
 - Missing source days are never invented in the store.
 - Model inputs forward-fill gaps so every model gets a regular daily series. The count of filled values is recorded per run.
 - Days with no published actual are not scored.
+
+## D13. LightGBM conformal windows
+
+- Raised from 3 to 10 before the first live commit. In the pipeline test (replayed dates, not results), 3 windows gave 80% intervals covering 43% of actuals; 10 gave 62%. 20 fails because some series have too little history.
+- LightGBM intervals are still too narrow. This is left visible on the leaderboard's coverage column rather than tuned further against replayed data.

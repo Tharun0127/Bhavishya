@@ -98,7 +98,7 @@ Code: `src/bhavishya/arena/leaderboard.py`.
 |---|---|---|
 | seasonal_naive | reference | repeats the last 7 days; intervals from statsforecast |
 | auto_ets, auto_arima | local statistical | statsforecast, season 7, last 730 days |
-| lightgbm | global ML | one model per source, lags 1-28, per-series scaling, conformal intervals from 3 windows |
+| lightgbm | global ML | one model per source, lags 1-28, per-series scaling, conformal intervals from 10 windows (3 covered 43% at the 80% level in the pipeline test; 10 covered 62%; 20 needs more history than some series have) |
 | chronos2 | foundation, zero-shot | `amazon/chronos-2` at a pinned revision |
 | timesfm2_5 | foundation, zero-shot | `google/timesfm-2.5-200m-pytorch` at a pinned revision |
 | moirai2 | foundation, zero-shot | `Salesforce/moirai-2.0-R-small` at a pinned revision, own environment |

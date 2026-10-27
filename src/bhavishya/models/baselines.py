@@ -87,6 +87,11 @@ class LightGBMGlobal(Forecaster):
 
     name = "lightgbm"
     max_history_days = 730
+    # Each series and horizon is calibrated from up to this many errors. Three gave 80% intervals
+    # that covered 43% of actuals in the pipeline test; more windows widen them toward nominal
+    # coverage. Fewer are used when the shortest series cannot hold this many windows.
+    conformal_windows = 10
+    min_train_days = 90  # rows kept for training before the oldest window, after 28-day lags
     params: dict[str, Any] = {
         "n_estimators": 300,
         "learning_rate": 0.05,
@@ -108,7 +113,7 @@ class LightGBMGlobal(Forecaster):
             config={
                 "params": self.params,
                 "lags": [1, 7, 14, 21, 28],
-                "conformal_windows": 3,
+                "max_conformal_windows": self.conformal_windows,
                 "date_features": ["dayofweek", "month"],
                 "levels": LEVELS,
             },
@@ -129,6 +134,10 @@ class LightGBMGlobal(Forecaster):
             date_features=["dayofweek", "month"],
             target_transforms=[LocalStandardScaler()],
         )
-        mlf.fit(to_nixtla(history), prediction_intervals=PredictionIntervals(n_windows=3, h=horizon))
+        data = to_nixtla(history)
+        # Every series must hold the windows plus enough rows to train on before the oldest one.
+        shortest = int(data.groupby("unique_id").size().min())
+        windows = max(1, min(self.conformal_windows, (shortest - self.min_train_days) // horizon))
+        mlf.fit(data, prediction_intervals=PredictionIntervals(n_windows=windows, h=horizon))
         fc = mlf.predict(horizon, level=list(LEVELS))
         return add_horizon(intervals_to_quantiles(fc, "LGBM"))
