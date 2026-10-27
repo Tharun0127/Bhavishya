@@ -1,0 +1,19 @@
+# Selection rules for the launch panel. Written on 2026-10-27, before any arena forecast was made.
+# `bhavishya select-panel` applies them to data as it existed on the freeze date and writes config/panel.yaml.
+# Changing the panel later means a new panel version with its own start date. Old scores are never mixed in.
+version: "v1"
+rules:
+  data_cutoff: >-
+    Use only rows with vintage_date on or before the freeze date. The selection code refuses any later vintage.
+  coverage: >-
+    Coverage is the share of the 365 days ending at the newest observation that have a value.
+    A series needs coverage of at least 0.85.
+  grid_india: >-
+    Include all-India energy met (MU) and all-India maximum demand met (MW).
+    Then include energy met (MU) for the 15 states with the highest mean energy met over the same 365 days.
+  cpcb_aqi: >-
+    Rank cities by the 2011 Census list of largest urban agglomerations (fixed in src/bhavishya/arena/panel.py).
+    Include the first 20 cities in that order whose bulletin coverage passes the threshold.
+  why: >-
+    Size and coverage are known in advance and say nothing about future forecast difficulty.
+    No rule looks at past forecast errors, volatility, or any value after the freeze date.
