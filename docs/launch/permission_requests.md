@@ -1,6 +1,6 @@
 # DRAFT, NOT SENT: permission requests to republish derived values
 
-Two draft emails. Neither has been sent. The maintainer sends them personally, from his own address, before the public site is promoted. Fill in the placeholders in angle brackets. Keep a copy of any reply in a private folder and record the outcome (date, decision, conditions) in docs/DECISIONS.md D5.
+Two draft emails. Neither has been sent. The maintainer sends them personally, from their own address, before the public site is promoted. Fill in the placeholders in angle brackets. Keep a copy of any reply in a private folder and record the outcome (date, decision, conditions) in docs/DECISIONS.md D5.
 
 Background: docs/DECISIONS.md D5 and DATA_SOURCES.md. CPCB's copyright policy (cpcb.gov.in/copyright-policy, updated 2019-09-01) allows material to be downloaded without prior permission and says any other use needs approval from CPCB at ccb.cpcb@nic.in. Grid-India's copyright page could not be loaded on 2026-10-27, so its terms are unverified.
 
