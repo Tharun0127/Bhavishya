@@ -1,0 +1,324 @@
+{
+  "created_at_utc": "2026-10-27T15:15:49.587396+00:00",
+  "cutoffs": {
+    "cpcb_aqi": "2026-10-27",
+    "grid_india": "2026-10-26"
+  },
+  "failures": {},
+  "filled_values": {
+    "cpcb_aqi": 166,
+    "grid_india": 17
+  },
+  "forecasts_sha256": "977b074c75544b068a7a8601f5304b799586e53b37be124ffb0bc42b7ace3c42",
+  "input_sha256": {
+    "cpcb_aqi.parquet": "1662e10d17f0b02a04a790aadcf2502fb1f01cf2fe4a13cd9ab6f7bef3771e1a",
+    "grid_india.parquet": "c4f9639da54039e1c3c6867b023e9a0203c3e444efaac1de0a2ba82215caa65e",
+    "scales.parquet": "8d8e4948e4597acc7af1b18308ec74274aeab0600c24e1dcad4809ae8b4d8444"
+  },
+  "models": {
+    "auto_arima/cpcb_aqi": {
+      "config": {
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "model": "AutoARIMA",
+        "season_length": 7
+      },
+      "config_hash": "d2d8741113a3f7ba",
+      "family": "baseline",
+      "n_series": 20,
+      "name": "auto_arima",
+      "seconds": 137.98,
+      "version": "statsforecast==2.1.1",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "auto_arima/grid_india": {
+      "config": {
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "model": "AutoARIMA",
+        "season_length": 7
+      },
+      "config_hash": "d2d8741113a3f7ba",
+      "family": "baseline",
+      "n_series": 17,
+      "name": "auto_arima",
+      "seconds": 227.49,
+      "version": "statsforecast==2.1.1",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "auto_ets/cpcb_aqi": {
+      "config": {
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "model": "AutoETS",
+        "season_length": 7
+      },
+      "config_hash": "8849a9fe3a74d745",
+      "family": "baseline",
+      "n_series": 20,
+      "name": "auto_ets",
+      "seconds": 24.76,
+      "version": "statsforecast==2.1.1",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "auto_ets/grid_india": {
+      "config": {
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "model": "AutoETS",
+        "season_length": 7
+      },
+      "config_hash": "8849a9fe3a74d745",
+      "family": "baseline",
+      "n_series": 17,
+      "name": "auto_ets",
+      "seconds": 22.24,
+      "version": "statsforecast==2.1.1",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "chronos2/cpcb_aqi": {
+      "config": {
+        "context": 1024,
+        "cross_learning": false
+      },
+      "config_hash": "5dcad6f4c2d30008",
+      "family": "foundation",
+      "n_series": 20,
+      "name": "chronos2",
+      "seconds": 33.7,
+      "version": "chronos-forecasting==2.3.2",
+      "weights_repo": "amazon/chronos-2",
+      "weights_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+      "weights_sha256": "ddcda3c7508bf2528087723e98a20707cc04b7f370ae275a9fd88078ddba4f42"
+    },
+    "chronos2/grid_india": {
+      "config": {
+        "context": 1024,
+        "cross_learning": false
+      },
+      "config_hash": "5dcad6f4c2d30008",
+      "family": "foundation",
+      "n_series": 17,
+      "name": "chronos2",
+      "seconds": 25.75,
+      "version": "chronos-forecasting==2.3.2",
+      "weights_repo": "amazon/chronos-2",
+      "weights_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+      "weights_sha256": "ddcda3c7508bf2528087723e98a20707cc04b7f370ae275a9fd88078ddba4f42"
+    },
+    "lightgbm/cpcb_aqi": {
+      "config": {
+        "date_features": [
+          "dayofweek",
+          "month"
+        ],
+        "lags": [
+          1,
+          7,
+          14,
+          21,
+          28
+        ],
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "max_conformal_windows": 10,
+        "params": {
+          "colsample_bytree": 0.9,
+          "learning_rate": 0.05,
+          "min_child_samples": 20,
+          "n_estimators": 300,
+          "n_jobs": 1,
+          "num_leaves": 31,
+          "random_state": 0,
+          "subsample": 0.9,
+          "subsample_freq": 1,
+          "verbose": -1
+        }
+      },
+      "config_hash": "96b7209a91811962",
+      "family": "baseline",
+      "n_series": 20,
+      "name": "lightgbm",
+      "seconds": 12.75,
+      "version": "mlforecast==1.1.0;lightgbm==4.7.0",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "lightgbm/grid_india": {
+      "config": {
+        "date_features": [
+          "dayofweek",
+          "month"
+        ],
+        "lags": [
+          1,
+          7,
+          14,
+          21,
+          28
+        ],
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "max_conformal_windows": 10,
+        "params": {
+          "colsample_bytree": 0.9,
+          "learning_rate": 0.05,
+          "min_child_samples": 20,
+          "n_estimators": 300,
+          "n_jobs": 1,
+          "num_leaves": 31,
+          "random_state": 0,
+          "subsample": 0.9,
+          "subsample_freq": 1,
+          "verbose": -1
+        }
+      },
+      "config_hash": "96b7209a91811962",
+      "family": "baseline",
+      "n_series": 17,
+      "name": "lightgbm",
+      "seconds": 12.0,
+      "version": "mlforecast==1.1.0;lightgbm==4.7.0",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "moirai2/cpcb_aqi": {
+      "config": {
+        "context": 1024
+      },
+      "config_hash": "8a9b9d267e2399e0",
+      "family": "foundation",
+      "n_series": 20,
+      "name": "moirai2",
+      "seconds": 15.56,
+      "version": "uni2ts==2.0.0",
+      "weights_repo": "Salesforce/moirai-2.0-R-small",
+      "weights_revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389",
+      "weights_sha256": "fb5652a3db8ea572606221b7cb1e77bb8962b168e4d4cc752cf31ceb04074669"
+    },
+    "moirai2/grid_india": {
+      "config": {
+        "context": 1024
+      },
+      "config_hash": "8a9b9d267e2399e0",
+      "family": "foundation",
+      "n_series": 17,
+      "name": "moirai2",
+      "seconds": 13.34,
+      "version": "uni2ts==2.0.0",
+      "weights_repo": "Salesforce/moirai-2.0-R-small",
+      "weights_revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389",
+      "weights_sha256": "fb5652a3db8ea572606221b7cb1e77bb8962b168e4d4cc752cf31ceb04074669"
+    },
+    "seasonal_naive/cpcb_aqi": {
+      "config": {
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "model": "SeasonalNaive",
+        "season_length": 7
+      },
+      "config_hash": "e613f056cc28a702",
+      "family": "baseline",
+      "n_series": 20,
+      "name": "seasonal_naive",
+      "seconds": 6.24,
+      "version": "statsforecast==2.1.1",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "seasonal_naive/grid_india": {
+      "config": {
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "model": "SeasonalNaive",
+        "season_length": 7
+      },
+      "config_hash": "e613f056cc28a702",
+      "family": "baseline",
+      "n_series": 17,
+      "name": "seasonal_naive",
+      "seconds": 2.24,
+      "version": "statsforecast==2.1.1",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "timesfm2_5/cpcb_aqi": {
+      "config": {
+        "context": 1024,
+        "use_continuous_quantile_head": true
+      },
+      "config_hash": "ea7cf519617e3b68",
+      "family": "foundation",
+      "n_series": 20,
+      "name": "timesfm2_5",
+      "seconds": 37.02,
+      "version": "timesfm==3.0.2",
+      "weights_repo": "google/timesfm-2.5-200m-pytorch",
+      "weights_revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+      "weights_sha256": "2f776efe6245e42b24bc4153ffdf61810140210e4bd3b01fb21f7aa779ab6ce8"
+    },
+    "timesfm2_5/grid_india": {
+      "config": {
+        "context": 1024,
+        "use_continuous_quantile_head": true
+      },
+      "config_hash": "ea7cf519617e3b68",
+      "family": "foundation",
+      "n_series": 17,
+      "name": "timesfm2_5",
+      "seconds": 31.9,
+      "version": "timesfm==3.0.2",
+      "weights_repo": "google/timesfm-2.5-200m-pytorch",
+      "weights_revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+      "weights_sha256": "2f776efe6245e42b24bc4153ffdf61810140210e4bd3b01fb21f7aa779ab6ce8"
+    }
+  },
+  "replay": false,
+  "run_date": "2026-10-27",
+  "skipped_series": {},
+  "skipped_sources": {}
+}
