@@ -48,3 +48,49 @@ Verified on 2026-10-27 from this machine:
   - Before the site goes public, the maintainer should ask CPCB and Grid-India for permission to republish derived daily values. Draft emails are in docs/launch/. This is on the launch checklist.
   - If CPCB refuses, switch the AQI track to CPCB data on data.gov.in, which is released under the Government Open Data License - India (needs the API key).
 - Why not wait: the loaders and the pipeline are useful and testable now. Publication is a separate, manual step that the maintainer controls.
+
+## D6. Foundation model versions
+
+Checked on Hugging Face on 2026-10-27:
+
+| Family | Latest found | Used | Why |
+|---|---|---|---|
+| Chronos | `amazon/chronos-2` (rev `29ec376`) | same | Latest; about 120M parameters; runs on CPU. |
+| TimesFM | `google/timesfm-3.0-pytorch` (rev `43046b8`, 1.3 GB) | `google/timesfm-2.5-200m-pytorch` (rev `1d95242`) | TimesFM 3.0 is under the "TimesFM Non-Commercial License v1.0", and its code (`timesfm3`) is not on PyPI (`timesfm` 3.0.2 only imports it if present). 2.5 is Apache-2.0 and supported by the released package. Revisit when `timesfm3` is released. |
+| Moirai | `Salesforce/moirai-2.0-R-small` (rev `30f43ff`) | same | Latest Moirai on the Hub; 11M parameters. |
+
+Revisions are pinned in `src/bhavishya/models/foundation.py`. The SHA-256 of each weights file is recorded with every forecast.
+
+## D7. Leakage guard
+
+- The arena writes each model's input file from `store.as_of(run_date)`, truncated at the cutoff. The model process gets only that file.
+- `Forecaster.forecast` raises `LeakageError` if history goes past the cutoff. Tests cover both.
+- In CI, model jobs have read-only permissions. Submissions also run with `--network none`.
+
+## D8. Where arena data lives: a `data` branch in the same repository
+
+- Options: a separate branch, a separate repository, or a Hugging Face dataset.
+- Chosen: an orphan `data` branch. It needs no extra token or account, its history is the tamper-evidence record, and `main` stays small. Raw source files are not committed there (D5).
+- Expected growth: about 40 KB per day of parquet (forecasts, inputs, observations). Under 20 MB a year.
+- Revisit if the data branch passes 1 GB: move to a Hugging Face dataset and keep only the manifest on GitHub.
+
+## D9. OpenTimestamps
+
+- Done with the `opentimestamps` Python library against two public calendars. The `ots` command needs OpenSSL through ctypes and fails on Windows, so the library is used directly.
+- A failed stamp never blocks a commit. The git push is the primary record.
+- Proofs are upgraded (Bitcoin attestation added) by the scoring job on later days.
+
+## D10. Scoring against the first release
+
+- Chosen because it is the value that existed when the outcome first became public, and it fixes scores once. See docs/METHODOLOGY.md section 5.
+
+## D11. Ranking thresholds
+
+- 28 days live and 10,000 scored forecasts. With about 37 series and 28 horizons, a model reaches 10,000 scored forecasts in roughly three to four weeks of daily runs. So both conditions bind at about the same time.
+- These are judgement calls. They are written down now so they cannot be tuned after seeing results.
+
+## D12. Missing days
+
+- Missing source days are never invented in the store.
+- Model inputs forward-fill gaps so every model gets a regular daily series. The count of filled values is recorded per run.
+- Days with no published actual are not scored.
