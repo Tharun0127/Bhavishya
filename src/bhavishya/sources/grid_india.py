@@ -82,7 +82,7 @@ class GridIndia(Source):
                 # A re-upload for the same day replaces the earlier one in the listing view,
                 # but both are kept as separate vintages if we fetched both.
                 prev = refs.get(ref.obs_date)
-                if prev is None or (ref.published or ref.obs_date) >= (prev.published or prev.obs_date):
+                if prev is None or _release_key(ref) >= _release_key(prev):
                     refs[ref.obs_date] = ref
         return [refs[k] for k in sorted(refs)]
 
@@ -98,7 +98,9 @@ class GridIndia(Source):
         obs_date = pd.Timestamp(year=2000 + int(yy), month=int(mm), day=int(dd))
         created = pd.to_datetime(str(item.get("CreatedOn") or ""), format="%d-%m-%Y %H:%M", errors="coerce")
         published = None if pd.isna(created) else pd.Timestamp(created).normalize()
-        return FileRef(url=FILE_BASE + path, filename=path.rsplit("/", 1)[-1], obs_date=obs_date, published=published)
+        return FileRef(
+            url=FILE_BASE + path, filename=path.rsplit("/", 1)[-1], obs_date=obs_date, published=published
+        )
 
     def parse(self, content: bytes, ref: FileRef, vintage_date: pd.Timestamp) -> pd.DataFrame:
         if ref.obs_date is None:
@@ -106,6 +108,11 @@ class GridIndia(Source):
         sheet = pd.read_excel(io.BytesIO(content), sheet_name=0, header=None)
         rows = _parse_all_india(sheet, ref.obs_date) + _parse_states(sheet, ref.obs_date)
         return make_tidy(rows, self.name, vintage_date)
+
+
+def _release_key(ref: FileRef) -> pd.Timestamp:
+    """Order re-uploads of the same day by publication date, falling back to the observation date."""
+    return ref.published or ref.obs_date or pd.Timestamp.min
 
 
 def _find_row(sheet: pd.DataFrame, pattern: str, col: int = 0, start: int = 0) -> int | None:
@@ -116,7 +123,9 @@ def _find_row(sheet: pd.DataFrame, pattern: str, col: int = 0, start: int = 0) -
     return None
 
 
-def _parse_all_india(sheet: pd.DataFrame, obs_date: pd.Timestamp) -> list[tuple[str, pd.Timestamp, float, str]]:
+def _parse_all_india(
+    sheet: pd.DataFrame, obs_date: pd.Timestamp
+) -> list[tuple[str, pd.Timestamp, float, str]]:
     """Section A has one column per region and a TOTAL column for all of India."""
     header = None
     for i in range(min(15, len(sheet))):
@@ -127,7 +136,10 @@ def _parse_all_india(sheet: pd.DataFrame, obs_date: pd.Timestamp) -> list[tuple[
     if header is None:
         raise ValueError("section A header (NR ... TOTAL) not found")
     out: list[tuple[str, pd.Timestamp, float, str]] = []
-    targets = {r"^Energy Met": ("energy_met", "MU"), r"^Maximum Demand Met During the Day": ("max_demand", "MW")}
+    targets = {
+        r"^Energy Met": ("energy_met", "MU"),
+        r"^Maximum Demand Met During the Day": ("max_demand", "MW"),
+    }
     for pattern, (metric, unit) in targets.items():
         row = _find_row(sheet, pattern, start=header)
         value = None if row is None else _to_float(sheet.iat[row, total_col])
@@ -142,7 +154,9 @@ def _parse_states(sheet: pd.DataFrame, obs_date: pd.Timestamp) -> list[tuple[str
     header = None
     for i in range(len(sheet)):
         labels = [_cell(v) for v in sheet.iloc[i].tolist()]
-        if any(s.startswith("Max.Demand") for s in labels) and any(s.startswith("Energy Met") for s in labels):
+        if any(s.startswith("Max.Demand") for s in labels) and any(
+            s.startswith("Energy Met") for s in labels
+        ):
             header = i
             demand_col = next(j for j, s in enumerate(labels) if s.startswith("Max.Demand"))
             energy_col = next(j for j, s in enumerate(labels) if s.startswith("Energy Met"))

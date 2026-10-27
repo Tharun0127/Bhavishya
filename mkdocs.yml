@@ -1,0 +1,26 @@
+site_name: Bhavishya
+site_description: Vintage-aware loaders for Indian public time series, and a live forecasting arena.
+repo_url: https://github.com/Tharun0127/Bhavishya
+docs_dir: docs
+site_dir: _site/docs
+theme:
+  name: material
+  features: [navigation.sections, content.code.copy]
+nav:
+  - Home: index.md
+  - Usage: usage.md
+  - Data sources: data_sources.md
+  - Methodology: METHODOLOGY.md
+  - Submitting a model: submissions.md
+  - Prior art: PRIOR_ART.md
+  - Decisions: DECISIONS.md
+exclude_docs: |
+  launch/
+  INTERVIEW_PREP.md
+  PAPER_OUTLINE.md
+  LAUNCH_CHECKLIST.md
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true

@@ -36,3 +36,15 @@ Verified on 2026-10-27 from this machine:
 - `uni2ts` (Moirai) pins `torch<2.5`, `numpy~=1.26` and `scipy~=1.11`. These conflict with current `statsforecast`, `chronos-forecasting` and `timesfm`.
 - Every model therefore runs in its own process, and Moirai runs in its own virtual environment. In GitHub Actions each model is a separate matrix job.
 - Side benefit: one model crashing or timing out cannot stop the others. The process boundary is also the main leakage guard (see D7).
+
+## D5. Licences: raw files are not redistributed; hashes are
+
+- CPCB's copyright policy (cpcb.gov.in/copyright-policy, updated 2019-09-01) allows material to be "downloaded to file or printer without requiring specific prior permission". Any other use needs approval from CPCB (ccb.cpcb@nic.in).
+- Grid-India's copyright and website policy pages did not load outside the site's own navigation on 2026-10-27, so their terms are unverified.
+- Open-Meteo data is CC BY 4.0.
+- Decision:
+  - The pip package downloads files to the user's own machine, which the CPCB policy allows.
+  - The arena publishes derived numbers (daily values), forecasts and scores with attribution. It publishes the SHA-256 of every raw file it used, but not the raw Grid-India or CPCB files. Anyone can re-download a file from the source and check the hash. Raw files are kept as 90-day workflow artifacts and in the maintainer's local store.
+  - Before the site goes public, the maintainer should ask CPCB and Grid-India for permission to republish derived daily values. Draft emails are in docs/launch/. This is on the launch checklist.
+  - If CPCB refuses, switch the AQI track to CPCB data on data.gov.in, which is released under the Government Open Data License - India (needs the API key).
+- Why not wait: the loaders and the pipeline are useful and testable now. Publication is a separate, manual step that the maintainer controls.

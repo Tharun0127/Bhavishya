@@ -72,19 +72,35 @@ class OpenMeteo(Source):
                 "timezone": "Asia/Kolkata",
             }
             if start <= split:
-                params = {**base, "start_date": f"{start:%Y-%m-%d}", "end_date": f"{min(end, split):%Y-%m-%d}"}
-                refs.append(FileRef(ARCHIVE_URL, f"{city}_archive_{start:%Y%m%d}_{min(end, split):%Y%m%d}.json",
-                                    params=params))
+                params = {
+                    **base,
+                    "start_date": f"{start:%Y-%m-%d}",
+                    "end_date": f"{min(end, split):%Y-%m-%d}",
+                }
+                refs.append(
+                    FileRef(
+                        ARCHIVE_URL,
+                        f"{city}_archive_{start:%Y%m%d}_{min(end, split):%Y%m%d}.json",
+                        params=params,
+                    )
+                )
             if end > split:
                 recent_start = max(start, split + pd.Timedelta(days=1))
-                params = {**base, "start_date": f"{recent_start:%Y-%m-%d}", "end_date": f"{min(end, today):%Y-%m-%d}"}
-                refs.append(FileRef(FORECAST_URL, f"{city}_recent_{recent_start:%Y%m%d}_{end:%Y%m%d}.json",
-                                    params=params))
+                params = {
+                    **base,
+                    "start_date": f"{recent_start:%Y-%m-%d}",
+                    "end_date": f"{min(end, today):%Y-%m-%d}",
+                }
+                refs.append(
+                    FileRef(
+                        FORECAST_URL, f"{city}_recent_{recent_start:%Y%m%d}_{end:%Y%m%d}.json", params=params
+                    )
+                )
         return refs
 
     def parse(self, content: bytes, ref: FileRef, vintage_date: pd.Timestamp) -> pd.DataFrame:
         payload = json.loads(content)
-        city = ref.filename.split("_", 1)[0]
+        city = nearest_city(float(payload["latitude"]), float(payload["longitude"]))
         daily = payload["daily"]
         rows: list[tuple[str, pd.Timestamp, float, str]] = []
         for var, unit in VARIABLES.items():
@@ -92,3 +108,14 @@ class OpenMeteo(Source):
                 if value is not None:
                     rows.append((f"open_meteo/{var}/{city}", pd.Timestamp(day), float(value), unit))
         return make_tidy(rows, self.name, vintage_date)
+
+
+def nearest_city(lat: float, lon: float) -> str:
+    """Map a response's grid-snapped coordinates back to our city name.
+
+    Open-Meteo moves the point to its model grid (a few km), so we match by distance, not equality.
+    """
+    city, (clat, clon) = min(CITIES.items(), key=lambda kv: (kv[1][0] - lat) ** 2 + (kv[1][1] - lon) ** 2)
+    if abs(clat - lat) > 0.5 or abs(clon - lon) > 0.5:
+        raise ValueError(f"response coordinates ({lat}, {lon}) match no configured city")
+    return city
