@@ -1,0 +1,85 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bhavishya"
+dynamic = ["version"]
+description = "Clean, vintage-aware loaders for Indian public time series, and the Bhavishya live forecasting arena."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Bhavishya contributors" }]
+keywords = ["india", "time-series", "forecasting", "benchmark", "open-data", "grid-india", "cpcb", "air-quality"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+  "Typing :: Typed",
+]
+# Core loaders stay light. Models and the arena are optional extras.
+dependencies = [
+  "pandas>=2.0",
+  "pyarrow>=14",
+  "requests>=2.31",
+  "urllib3>=2",
+  "pyyaml>=6",
+  "python-dotenv>=1.0",
+  "xlrd>=2.0",
+  "pdfplumber>=0.11",
+]
+
+[project.optional-dependencies]
+baselines = ["statsforecast>=2.0", "mlforecast>=1.0", "lightgbm>=4.0"]
+chronos = ["chronos-forecasting>=2.2,<3", "torch>=2.2"]
+timesfm = ["timesfm[torch]>=3.0,<4"]
+# Moirai needs its own environment because uni2ts pins old torch, numpy and scipy.
+moirai = ["uni2ts==2.0.0"]
+arena = ["jinja2>=3.1", "opentimestamps-client>=0.7"]
+dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.10", "pandas-stubs", "types-PyYAML", "types-requests", "mkdocs-material>=9"]
+
+[project.urls]
+Homepage = "https://github.com/Tharun0127/Bhavishya"
+Documentation = "https://tharun0127.github.io/Bhavishya/docs/"
+Issues = "https://github.com/Tharun0127/Bhavishya/issues"
+
+[project.scripts]
+bhavishya = "bhavishya.cli:main"
+
+[tool.hatch.version]
+path = "src/bhavishya/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bhavishya"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/bhavishya", "README.md", "LICENSE", "config/panel.yaml"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = false
+warn_unused_ignores = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+files = ["src/bhavishya"]
+exclude = ["src/bhavishya/models/moirai_model.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "network: needs internet access",
+  "slow: downloads model weights or runs long",
+]
+addopts = "-m 'not network and not slow'"
