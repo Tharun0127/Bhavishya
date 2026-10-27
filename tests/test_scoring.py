@@ -70,6 +70,7 @@ def _forecast_row(model: str, sid: str, run: str, h: int, median: float, width: 
         "cutoff": cutoff,
         "horizon": h,
         "target_date": cutoff + pd.Timedelta(days=h),
+        "committed_at": pd.Timestamp(run, tz="UTC") + pd.Timedelta(hours=5, minutes=45),
         "run_date": pd.Timestamp(run),
         **qs,
     }
@@ -89,9 +90,33 @@ def test_score_frame_and_prospective_flag():
     s = score_frame(fc, actuals, scales).iloc[0]
     assert s["abs_error"] == 3.0 and s["mase"] == 1.5 and s["crps"] == pytest.approx(3.0)
     assert s["scaled_crps"] == pytest.approx(1.5) and not s["covered_80"] and s["prospective"]
-    # an actual published on the run date itself is not prospective
-    early = actuals.assign(vintage_date=pd.Timestamp("2026-01-10"))
+    # an actual stored with a vintage before the run date is not prospective
+    early = actuals.assign(vintage_date=pd.Timestamp("2026-01-09"))
     assert not score_frame(fc, early, scales).iloc[0]["prospective"]
+
+
+def test_prospective_uses_time_of_day_per_source():
+    """CPCB's value for day T exists from 16:00 IST on T; Grid-India's from midnight after T."""
+    row = _forecast_row("m", "a", "2026-01-10", 1, 10.0, 1.0)  # target 2026-01-10
+    actuals = pd.DataFrame(
+        {
+            "series_id": ["a"],
+            "timestamp": [pd.Timestamp("2026-01-10")],
+            "value": [10.0],
+            "vintage_date": [pd.Timestamp("2026-01-10")],
+        }
+    )
+    scales = pd.DataFrame({"run_date": [pd.Timestamp("2026-01-10")], "series_id": ["a"], "mase_scale": [1.0]})
+
+    def check(source: str, commit_ist: str) -> bool:
+        commit = pd.Timestamp(commit_ist).tz_localize("Asia/Kolkata").tz_convert("UTC")
+        fc = pd.DataFrame([{**row, "source": source, "committed_at": commit}])
+        return bool(score_frame(fc, actuals, scales).iloc[0]["prospective"])
+
+    assert check("cpcb_aqi", "2026-01-10 11:15")  # before the 16:00 average closes
+    assert not check("cpcb_aqi", "2026-01-10 16:30")  # a late commit is caught
+    assert check("grid_india", "2026-01-10 23:00")
+    assert not check("grid_india", "2026-01-11 00:30")
 
 
 def _scores(ratio_by_series: dict[str, float], days: int = 5) -> pd.DataFrame:

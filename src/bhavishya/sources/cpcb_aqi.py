@@ -32,6 +32,7 @@ class CpcbAqi(Source):
         licence="Public bulletin on a Government of India website. See DATA_SOURCES.md.",
         attribution="Source: Central Pollution Control Board (CPCB), Daily AQI Bulletin.",
         release_lag="Bulletin for day D is published on the evening of day D (24h average to 16:00 IST).",
+        complete_after_hours=16.0,
     )
     contract = Contract(
         source="cpcb_aqi",

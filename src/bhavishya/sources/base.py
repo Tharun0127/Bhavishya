@@ -39,6 +39,10 @@ class SourceInfo:
     licence: str
     attribution: str
     release_lag: str
+    #: Hours after midnight IST at the start of day T before the value for T can exist at all.
+    #: CPCB: 16 (the 24-hour average ends at 16:00 IST). Grid-India: 24 (the day must end).
+    #: Scoring uses this to prove a forecast was committed before its target existed.
+    complete_after_hours: float = 24.0
 
 
 class Source(ABC):

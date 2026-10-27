@@ -322,7 +322,7 @@ def _build_data(out: Path, panel: Panel, manifest: pd.DataFrame) -> None:
         "<h2>Forecast manifest</h2>",
         f'<p>All forecasts, inputs, scores and the hash manifest live on the <a href="{DATA_BRANCH}">data branch</a>. '
         "To verify a file: download it, compute its SHA-256, and compare with the line below and with the git "
-        "commit time. <code>bhavishya arena verify</code> does this for every file.</p>",
+        "commit time. <code>bhavishya verify</code> does this for every file.</p>",
     ]
     if len(manifest):
         body.append(_table(manifest[["run_date", "sha256", "n_rows", "models"]].tail(60).iloc[::-1], {}))

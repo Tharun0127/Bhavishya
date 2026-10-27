@@ -180,8 +180,14 @@ def run_model(
     return status
 
 
-def commit_forecasts(store: VintageStore, run_date: pd.Timestamp, stamp: bool = True) -> Path | None:
-    """Merge staged outputs into one forecast file, hash it, and append it to the manifest."""
+def commit_forecasts(
+    store: VintageStore, run_date: pd.Timestamp, stamp: bool = True, committed_at: pd.Timestamp | None = None
+) -> Path | None:
+    """Merge staged outputs into one forecast file, hash it, and append it to the manifest.
+
+    ``committed_at`` is only set by replays (pipeline tests), which simulate the scheduled 11:15 IST
+    commit on a past date. Live runs always record the real time, and replays are flagged in run.json.
+    """
     day = f"{run_date:%Y-%m-%d}"
     stage = store.root / "staging" / day
     inputs = store.root / "inputs" / day
@@ -220,7 +226,8 @@ def commit_forecasts(store: VintageStore, run_date: pd.Timestamp, stamp: bool = 
         "failures": failures,
         "input_sha256": {p.name: sha256_file(p) for p in sorted(inputs.glob("*.parquet"))},
         "forecasts_sha256": sha256_file(path),
-        "created_at_utc": pd.Timestamp.now(tz="UTC").isoformat(),
+        "created_at_utc": (committed_at or pd.Timestamp.now(tz="UTC")).isoformat(),
+        "replay": committed_at is not None,
     }
     (out_dir / "run.json").write_text(json.dumps(run, indent=2, sort_keys=True), encoding="utf-8")
     append_manifest(
@@ -260,4 +267,10 @@ def daily(
             run_model(store, MODELS[name], run_date)
         except Exception:  # a broken model must not stop the others
             log.exception("model %s failed before running", name)
-    return commit_forecasts(store, run_date, stamp=stamp)
+    committed_at = None if live else replay_commit_time(run_date)
+    return commit_forecasts(store, run_date, stamp=stamp, committed_at=committed_at)
+
+
+def replay_commit_time(run_date: pd.Timestamp) -> pd.Timestamp:
+    """The scheduled commit time (11:15 IST, i.e. 05:45 UTC) on ``run_date``, for replays only."""
+    return (run_date.normalize() + pd.Timedelta(hours=5, minutes=45)).tz_localize("UTC")

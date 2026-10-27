@@ -15,6 +15,7 @@ import pandas as pd
 
 from bhavishya.arena.hashing import ots_upgrade, read_manifest, sha256_file
 from bhavishya.models.base import QUANTILE_COLUMNS, QUANTILES
+from bhavishya.sources import SOURCES
 from bhavishya.store import VintageStore
 
 log = logging.getLogger(__name__)
@@ -56,9 +57,7 @@ def score_frame(forecasts: pd.DataFrame, actuals: pd.DataFrame, scales: pd.DataF
         how="inner",
     )
     df = df.merge(scales[["run_date", "series_id", "mase_scale"]], on=["run_date", "series_id"], how="left")
-    # An actual published on or before the forecast run date would mean the forecast was not
-    # prospective. That cannot happen if cutoffs are right; we check and drop such rows anyway.
-    df["prospective"] = df["actual_vintage"] > df["run_date"]
+    df["prospective"] = is_prospective(df)
     y = df["actual"].to_numpy(dtype="float64")
     q = df[list(QUANTILE_COLUMNS)].to_numpy(dtype="float64")
     scale = df["mase_scale"].to_numpy(dtype="float64")
@@ -73,6 +72,26 @@ def score_frame(forecasts: pd.DataFrame, actuals: pd.DataFrame, scales: pd.DataF
     return df
 
 
+def target_exists_from(source: pd.Series, target_date: pd.Series) -> pd.Series:
+    """Earliest UTC instant at which the value for ``target_date`` could exist at the source."""
+    hours = source.map(lambda s: SOURCES[s].info.complete_after_hours if s in SOURCES else 24.0)
+    ist = target_date + pd.to_timedelta(hours, unit="h")
+    return (ist - pd.Timedelta(hours=5, minutes=30)).dt.tz_localize("UTC")
+
+
+def is_prospective(df: pd.DataFrame) -> pd.Series:
+    """True when the forecast was committed before its target value could exist.
+
+    Two checks. Time: the commit time is before the instant the target period ended at the source
+    (16:00 IST for CPCB's 24-hour average, midnight for Grid-India's daily totals). Dates alone are
+    not enough: CPCB publishes day D's value on day D itself. Vintage: the stored actual was not
+    published before the run date. Rows failing either check are dropped from scoring.
+    """
+    committed = pd.to_datetime(df["committed_at"], utc=True)
+    before_target = committed < target_exists_from(df["source"], df["target_date"])
+    return before_target & (df["actual_vintage"] >= df["run_date"])
+
+
 def load_committed(root: Path, verify: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
     """All forecast files listed in the manifest (hash-checked) and their MASE scales."""
     frames, scale_frames = [], []
@@ -80,7 +99,7 @@ def load_committed(root: Path, verify: bool = True) -> tuple[pd.DataFrame, pd.Da
         path = root / str(row.path)
         if verify and sha256_file(path) != row.sha256:
             raise RuntimeError(f"{row.path} does not match its manifest hash; refusing to score")
-        frames.append(pd.read_parquet(path))
+        frames.append(pd.read_parquet(path).assign(committed_at=pd.Timestamp(str(row.created_at_utc))))
         sp = root / "inputs" / str(row.run_date) / "scales.parquet"
         if sp.exists():
             scale_frames.append(pd.read_parquet(sp).assign(run_date=pd.Timestamp(str(row.run_date))))
