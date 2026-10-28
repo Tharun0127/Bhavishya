@@ -4,7 +4,7 @@ The live forecasting arena for India.
 
 Time series models forecast Indian public data before it exists. Each day's forecasts are hashed and committed to git before the outcomes are published, then scored automatically as the real numbers arrive.
 
-**Live leaderboard:** `<LEADERBOARD_URL>` (not yet published; see [docs/LAUNCH_CHECKLIST.md](docs/LAUNCH_CHECKLIST.md))
+**Live leaderboard:** https://tharun0127.github.io/Bhavishya/
 
 ## Limitations (read first)
 

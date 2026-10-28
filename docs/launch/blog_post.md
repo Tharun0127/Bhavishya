@@ -4,7 +4,7 @@
 
 Bhavishya (IndiaCast Arena) is a live forecasting arena for India. Every day it asks seven time series models to forecast Indian public data that has not been published yet, records the forecasts in a way that cannot be quietly changed, and scores them when the real numbers arrive. It started on 27 October 2026. There are no results yet. This post explains why it exists, how it works, what is not new about it, and where it is weak.
 
-Leaderboard: <LEADERBOARD_URL>
+Leaderboard: https://tharun0127.github.io/Bhavishya/
 Code: https://github.com/Tharun0127/Bhavishya
 
 ## The problem: static benchmarks and contamination

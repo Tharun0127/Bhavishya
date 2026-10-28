@@ -1,6 +1,6 @@
 # DRAFTS NOT SENT: individual outreach messages
 
-Every message below is a draft. None has been sent. Do not send any of them before the leaderboard is public and the facts in them are still true on the day of sending. Replace `<LEADERBOARD_URL>` and check each team's current contact route (GitHub issue, discussion forum or public email listed in their repository). Do not use private addresses found elsewhere.
+Every message below is a draft. None has been sent. Do not send any of them before the leaderboard is public and the facts in them are still true on the day of sending. Replace https://tharun0127.github.io/Bhavishya/ and check each team's current contact route (GitHub issue, discussion forum or public email listed in their repository). Do not use private addresses found elsewhere.
 
 Each message is 120 to 200 words, says what we run of theirs, how to submit an improved configuration, and asks one question.
 
@@ -23,7 +23,7 @@ If you think a different configuration is fairer, you can submit it as a separat
 One question: for daily univariate series with strong weekly patterns, would you expect enabling cross-learning across states in one batch to help or hurt Chronos-2?
 
 Code: https://github.com/Tharun0127/Bhavishya
-Leaderboard: <LEADERBOARD_URL>
+Leaderboard: https://tharun0127.github.io/Bhavishya/
 
 Tharun0127
 
@@ -46,7 +46,7 @@ We did not include TimesFM 3.0 because of its licence and because its code was n
 One question: is slicing indices 1 to 9 of the quantile output the correct way to read q0.1 to q0.9 in version 2.5?
 
 Code: https://github.com/Tharun0127/Bhavishya
-Leaderboard: <LEADERBOARD_URL>
+Leaderboard: https://tharun0127.github.io/Bhavishya/
 
 Tharun0127
 
@@ -69,7 +69,7 @@ If you want a different configuration or a larger checkpoint evaluated, you can 
 One question: are the uni2ts dependency pins expected to be relaxed in a coming release, so Moirai can share an environment with current PyTorch?
 
 Code: https://github.com/Tharun0127/Bhavishya
-Leaderboard: <LEADERBOARD_URL>
+Leaderboard: https://tharun0127.github.io/Bhavishya/
 
 Tharun0127
 
@@ -92,7 +92,7 @@ If you would configure these differently, for example MSTL or a TimeGPT entry, a
 One question: with only three conformal windows per series, would you recommend more windows, or a different interval method, for daily series about two years long?
 
 Code: https://github.com/Tharun0127/Bhavishya
-Leaderboard: <LEADERBOARD_URL>
+Leaderboard: https://tharun0127.github.io/Bhavishya/
 
 Tharun0127
 
@@ -115,7 +115,7 @@ We do not run any model of yours. If your team forecasts mandi prices, you could
 One question: which forecast horizon matters most for your pricing decisions, next day, next week, or next month?
 
 Code: https://github.com/Tharun0127/Bhavishya
-Leaderboard: <LEADERBOARD_URL>
+Leaderboard: https://tharun0127.github.io/Bhavishya/
 
 Tharun0127
 
@@ -138,7 +138,7 @@ If you forecast arrivals or modal prices, you could later enter a model through 
 One question: for advisory messages to farmers, do you use a single expected price or a price range, and how wide a range is still useful to a farmer?
 
 Code: https://github.com/Tharun0127/Bhavishya
-Leaderboard: <LEADERBOARD_URL>
+Leaderboard: https://tharun0127.github.io/Bhavishya/
 
 Tharun0127
 
@@ -161,7 +161,7 @@ If your team forecasts prices for collateral or trading, you could later enter a
 One question: when prices are revised or a mandi reports late, which value do you treat as the outcome, the first reported price or a later corrected one?
 
 Code: https://github.com/Tharun0127/Bhavishya
-Leaderboard: <LEADERBOARD_URL>
+Leaderboard: https://tharun0127.github.io/Bhavishya/
 
 Tharun0127
 
@@ -184,7 +184,7 @@ If you want to test a model publicly, you can submit it through a pull request. 
 One question: how often do Grid-India's daily state figures get revised after first release, in your experience?
 
 Code: https://github.com/Tharun0127/Bhavishya
-Leaderboard: <LEADERBOARD_URL>
+Leaderboard: https://tharun0127.github.io/Bhavishya/
 
 Tharun0127
 
@@ -207,6 +207,6 @@ If you would like to enter a model, the route is a pull request with a submissio
 One question: which daily series in the PSP report, other than energy met, would be most useful to forecast publicly, for example peak shortage, solar or wind generation, or regional demand?
 
 Code: https://github.com/Tharun0127/Bhavishya
-Leaderboard: <LEADERBOARD_URL>
+Leaderboard: https://tharun0127.github.io/Bhavishya/
 
 Tharun0127

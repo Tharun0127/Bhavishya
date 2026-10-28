@@ -9,7 +9,7 @@ I launched Bhavishya (IndiaCast Arena): a live forecasting arena for Indian publ
 
 Models forecast Grid-India power demand and CPCB city AQI before the numbers are published. No results yet: it started 27 Oct 2026.
 
-<LEADERBOARD_URL>
+https://tharun0127.github.io/Bhavishya/
 
 **2/**
 7 models run every day, 1 to 28 days ahead:

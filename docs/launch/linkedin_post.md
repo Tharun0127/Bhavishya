@@ -27,7 +27,7 @@ The honest limitations:
 
 You can:
 
-- Watch the leaderboard: <LEADERBOARD_URL>
+- Watch the leaderboard: https://tharun0127.github.io/Bhavishya/
 - Read the code and the data branch: https://github.com/Tharun0127/Bhavishya
 - Submit a model through a pull request (it runs in a sandbox with no network)
 - Tell me where the method is wrong. Issues are open.
