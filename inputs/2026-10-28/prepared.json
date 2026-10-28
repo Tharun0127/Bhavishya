@@ -1,0 +1,13 @@
+{
+  "cutoffs": {
+    "cpcb_aqi": "2026-10-27"
+  },
+  "filled_values": {
+    "cpcb_aqi": 166
+  },
+  "run_date": "2026-10-28",
+  "skipped_series": {},
+  "skipped_sources": {
+    "grid_india": "source unhealthy today"
+  }
+}
