@@ -1,9 +1,9 @@
 {
   "cutoffs": {
-    "cpcb_aqi": "2026-10-27"
+    "cpcb_aqi": "2026-10-28"
   },
   "filled_values": {
-    "cpcb_aqi": 166
+    "cpcb_aqi": 167
   },
   "run_date": "2026-10-28",
   "skipped_series": {},
