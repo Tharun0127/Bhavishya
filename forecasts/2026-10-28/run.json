@@ -1,0 +1,173 @@
+{
+  "created_at_utc": "2026-10-28T02:15:47.517174+00:00",
+  "cutoffs": {
+    "cpcb_aqi": "2026-10-27"
+  },
+  "failures": {},
+  "filled_values": {
+    "cpcb_aqi": 166
+  },
+  "forecasts_sha256": "05a811595e8dbef40725b5f495807caeccb001b09f70d04793805a708f65dde7",
+  "input_sha256": {
+    "cpcb_aqi.parquet": "59c60453e03bbb953fceb7a54950590e16326579a06cd11413360deb684e7bd7",
+    "scales.parquet": "f4bc0a71f35c9d758dad5054a055218e76b90ea7111664c2e8171a6c559c4916"
+  },
+  "models": {
+    "auto_arima/cpcb_aqi": {
+      "config": {
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "model": "AutoARIMA",
+        "season_length": 7
+      },
+      "config_hash": "d2d8741113a3f7ba",
+      "family": "baseline",
+      "n_series": 20,
+      "name": "auto_arima",
+      "seconds": 20.74,
+      "version": "statsforecast==2.1.1",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "auto_ets/cpcb_aqi": {
+      "config": {
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "model": "AutoETS",
+        "season_length": 7
+      },
+      "config_hash": "8849a9fe3a74d745",
+      "family": "baseline",
+      "n_series": 20,
+      "name": "auto_ets",
+      "seconds": 6.3,
+      "version": "statsforecast==2.1.1",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "chronos2/cpcb_aqi": {
+      "config": {
+        "context": 1024,
+        "cross_learning": false
+      },
+      "config_hash": "5dcad6f4c2d30008",
+      "family": "foundation",
+      "n_series": 20,
+      "name": "chronos2",
+      "seconds": 5.98,
+      "version": "chronos-forecasting==2.3.2",
+      "weights_repo": "amazon/chronos-2",
+      "weights_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+      "weights_sha256": "ddcda3c7508bf2528087723e98a20707cc04b7f370ae275a9fd88078ddba4f42"
+    },
+    "lightgbm/cpcb_aqi": {
+      "config": {
+        "date_features": [
+          "dayofweek",
+          "month"
+        ],
+        "lags": [
+          1,
+          7,
+          14,
+          21,
+          28
+        ],
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "max_conformal_windows": 10,
+        "params": {
+          "colsample_bytree": 0.9,
+          "learning_rate": 0.05,
+          "min_child_samples": 20,
+          "n_estimators": 300,
+          "n_jobs": 1,
+          "num_leaves": 31,
+          "random_state": 0,
+          "subsample": 0.9,
+          "subsample_freq": 1,
+          "verbose": -1
+        }
+      },
+      "config_hash": "96b7209a91811962",
+      "family": "baseline",
+      "n_series": 20,
+      "name": "lightgbm",
+      "seconds": 2.87,
+      "version": "mlforecast==1.1.0;lightgbm==4.7.0",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "moirai2/cpcb_aqi": {
+      "config": {
+        "context": 1024
+      },
+      "config_hash": "8a9b9d267e2399e0",
+      "family": "foundation",
+      "n_series": 20,
+      "name": "moirai2",
+      "seconds": 3.16,
+      "version": "uni2ts==2.0.0",
+      "weights_repo": "Salesforce/moirai-2.0-R-small",
+      "weights_revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389",
+      "weights_sha256": "fb5652a3db8ea572606221b7cb1e77bb8962b168e4d4cc752cf31ceb04074669"
+    },
+    "seasonal_naive/cpcb_aqi": {
+      "config": {
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "model": "SeasonalNaive",
+        "season_length": 7
+      },
+      "config_hash": "e613f056cc28a702",
+      "family": "baseline",
+      "n_series": 20,
+      "name": "seasonal_naive",
+      "seconds": 1.67,
+      "version": "statsforecast==2.1.1",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "timesfm2_5/cpcb_aqi": {
+      "config": {
+        "context": 1024,
+        "use_continuous_quantile_head": true
+      },
+      "config_hash": "ea7cf519617e3b68",
+      "family": "foundation",
+      "n_series": 20,
+      "name": "timesfm2_5",
+      "seconds": 10.4,
+      "version": "timesfm==3.0.2",
+      "weights_repo": "google/timesfm-2.5-200m-pytorch",
+      "weights_revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+      "weights_sha256": "2f776efe6245e42b24bc4153ffdf61810140210e4bd3b01fb21f7aa779ab6ce8"
+    }
+  },
+  "replay": false,
+  "run_date": "2026-10-28",
+  "skipped_series": {},
+  "skipped_sources": {
+    "grid_india": "source unhealthy today"
+  }
+}

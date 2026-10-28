@@ -1,2 +1,3 @@
 run_date,path,sha256,n_rows,models,created_at_utc
 2026-10-27,forecasts/2026-10-27/forecasts.parquet,977b074c75544b068a7a8601f5304b799586e53b37be124ffb0bc42b7ace3c42,7252,auto_arima;auto_ets;chronos2;lightgbm;moirai2;seasonal_naive;timesfm2_5,2026-10-27T15:15:49.587396+00:00
+2026-10-28,forecasts/2026-10-28/forecasts.parquet,05a811595e8dbef40725b5f495807caeccb001b09f70d04793805a708f65dde7,3920,auto_arima;auto_ets;chronos2;lightgbm;moirai2;seasonal_naive;timesfm2_5,2026-10-28T02:15:47.517174+00:00
