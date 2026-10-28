@@ -2,7 +2,7 @@
 
 Manual steps for the maintainer, in order. Nothing here has been done automatically.
 
-1. **Push the data branch.** The first live forecasts and the backfilled history are committed on the local `data` branch. Push it: `git push -u origin data`. Before you do, read step 2: the branch contains derived CPCB and Grid-India values.
+1. **Push the data branch.** Done on 2026-10-27. The `data` branch holds the backfilled history and the first live forecasts (2026-10-27). It contains derived CPCB and Grid-India values, so send the requests in step 2 now.
 2. **Ask CPCB and Grid-India for permission to republish derived daily values.** Drafts are in `docs/launch/permission_requests.md`. CPCB's policy allows downloading, but other use needs approval (ccb.cpcb@nic.in). Grid-India's terms could not be read. If you prefer to wait for replies, keep the repository's data branch unpushed (or the repository private) until then.
 3. **Protect branches.** In Settings > Branches, add rules for `main` (require pull request review and passing `ci`) and `data` (block force pushes and deletion). Add a CODEOWNERS entry for `.github/` and `submissions/`.
 4. **Create the `run-submission` and `source-health` labels.** Settings > Labels. Only maintainers can apply labels, which is what gates submission runs.
