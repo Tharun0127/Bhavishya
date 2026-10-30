@@ -1,0 +1,15 @@
+{
+  "cutoffs": {
+    "cpcb_aqi": "2026-10-30"
+  },
+  "filled_values": {
+    "cpcb_aqi": 139
+  },
+  "run_date": "2026-10-30",
+  "skipped_series": {
+    "cpcb_aqi/aqi/visakhapatnam": "last value 2026-10-27, cutoff 2026-10-30"
+  },
+  "skipped_sources": {
+    "grid_india": "source unhealthy today"
+  }
+}
