@@ -1,0 +1,175 @@
+{
+  "created_at_utc": "2026-10-30T11:41:29.553471+00:00",
+  "cutoffs": {
+    "cpcb_aqi": "2026-10-30"
+  },
+  "failures": {},
+  "filled_values": {
+    "cpcb_aqi": 139
+  },
+  "forecasts_sha256": "e5796a3bb2ea1288ba65a13f1c58f590af6cf888c9dacffaebf630c376c39e2b",
+  "input_sha256": {
+    "cpcb_aqi.parquet": "f5e1584df742c12eb8989e3ff8111e315548de6bcf73ce91c23b1aa09b9d073d",
+    "scales.parquet": "e0b1f93af0396d3bbd1953db048a4882fbb8a1a70992ffad156131bb29336f72"
+  },
+  "models": {
+    "auto_arima/cpcb_aqi": {
+      "config": {
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "model": "AutoARIMA",
+        "season_length": 7
+      },
+      "config_hash": "d2d8741113a3f7ba",
+      "family": "baseline",
+      "n_series": 19,
+      "name": "auto_arima",
+      "seconds": 42.27,
+      "version": "statsforecast==2.1.1",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "auto_ets/cpcb_aqi": {
+      "config": {
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "model": "AutoETS",
+        "season_length": 7
+      },
+      "config_hash": "8849a9fe3a74d745",
+      "family": "baseline",
+      "n_series": 19,
+      "name": "auto_ets",
+      "seconds": 9.28,
+      "version": "statsforecast==2.1.1",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "chronos2/cpcb_aqi": {
+      "config": {
+        "context": 1024,
+        "cross_learning": false
+      },
+      "config_hash": "5dcad6f4c2d30008",
+      "family": "foundation",
+      "n_series": 19,
+      "name": "chronos2",
+      "seconds": 5.55,
+      "version": "chronos-forecasting==2.3.2",
+      "weights_repo": "amazon/chronos-2",
+      "weights_revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+      "weights_sha256": "ddcda3c7508bf2528087723e98a20707cc04b7f370ae275a9fd88078ddba4f42"
+    },
+    "lightgbm/cpcb_aqi": {
+      "config": {
+        "date_features": [
+          "dayofweek",
+          "month"
+        ],
+        "lags": [
+          1,
+          7,
+          14,
+          21,
+          28
+        ],
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "max_conformal_windows": 10,
+        "params": {
+          "colsample_bytree": 0.9,
+          "learning_rate": 0.05,
+          "min_child_samples": 20,
+          "n_estimators": 300,
+          "n_jobs": 1,
+          "num_leaves": 31,
+          "random_state": 0,
+          "subsample": 0.9,
+          "subsample_freq": 1,
+          "verbose": -1
+        }
+      },
+      "config_hash": "96b7209a91811962",
+      "family": "baseline",
+      "n_series": 19,
+      "name": "lightgbm",
+      "seconds": 1.85,
+      "version": "mlforecast==1.1.0;lightgbm==4.7.0",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "moirai2/cpcb_aqi": {
+      "config": {
+        "context": 1024
+      },
+      "config_hash": "8a9b9d267e2399e0",
+      "family": "foundation",
+      "n_series": 19,
+      "name": "moirai2",
+      "seconds": 2.35,
+      "version": "uni2ts==2.0.0",
+      "weights_repo": "Salesforce/moirai-2.0-R-small",
+      "weights_revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389",
+      "weights_sha256": "fb5652a3db8ea572606221b7cb1e77bb8962b168e4d4cc752cf31ceb04074669"
+    },
+    "seasonal_naive/cpcb_aqi": {
+      "config": {
+        "levels": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "model": "SeasonalNaive",
+        "season_length": 7
+      },
+      "config_hash": "e613f056cc28a702",
+      "family": "baseline",
+      "n_series": 19,
+      "name": "seasonal_naive",
+      "seconds": 1.42,
+      "version": "statsforecast==2.1.1",
+      "weights_repo": null,
+      "weights_revision": null,
+      "weights_sha256": null
+    },
+    "timesfm2_5/cpcb_aqi": {
+      "config": {
+        "context": 1024,
+        "use_continuous_quantile_head": true
+      },
+      "config_hash": "ea7cf519617e3b68",
+      "family": "foundation",
+      "n_series": 19,
+      "name": "timesfm2_5",
+      "seconds": 9.98,
+      "version": "timesfm==3.0.2",
+      "weights_repo": "google/timesfm-2.5-200m-pytorch",
+      "weights_revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+      "weights_sha256": "2f776efe6245e42b24bc4153ffdf61810140210e4bd3b01fb21f7aa779ab6ce8"
+    }
+  },
+  "replay": false,
+  "run_date": "2026-10-30",
+  "skipped_series": {
+    "cpcb_aqi/aqi/visakhapatnam": "last value 2026-10-27, cutoff 2026-10-30"
+  },
+  "skipped_sources": {
+    "grid_india": "source unhealthy today"
+  }
+}
