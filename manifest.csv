@@ -15,3 +15,4 @@ run_date,path,sha256,n_rows,models,created_at_utc
 2026-11-09,forecasts/2026-11-09/forecasts.parquet,a73c77207d7323d3b1f46649409c30947adeab21176401169c2a64a818cd1949,3920,auto_arima;auto_ets;chronos2;lightgbm;moirai2;seasonal_naive;timesfm2_5,2026-11-09T14:24:37.322567+00:00
 2026-11-10,forecasts/2026-11-10/forecasts.parquet,b557d2fac9042333808ac9bede31e4d9d1ce751de5efc29302b0b7a9117f4ea1,3920,auto_arima;auto_ets;chronos2;lightgbm;moirai2;seasonal_naive;timesfm2_5,2026-11-10T13:50:18.246149+00:00
 2026-11-11,forecasts/2026-11-11/forecasts.parquet,102c3ed89ee5b144c3d84f6c4f1b097542188052fe2a52e530240276bc657c46,3920,auto_arima;auto_ets;chronos2;lightgbm;moirai2;seasonal_naive;timesfm2_5,2026-11-11T13:00:35.108443+00:00
+2026-11-12,forecasts/2026-11-12/forecasts.parquet,62e59c43b3a23738ff61cb97645e157c43fd24931ede635e381140fee5a25556,3920,auto_arima;auto_ets;chronos2;lightgbm;moirai2;seasonal_naive;timesfm2_5,2026-11-12T14:02:16.805176+00:00
