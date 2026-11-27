@@ -1,4 +1,4 @@
-The daily pipeline skipped `grid_india` on 2026-11-26.
+The daily pipeline skipped `grid_india` on 2026-11-27.
 
 - State: `failed`
 - Newest value: 2026-10-26
